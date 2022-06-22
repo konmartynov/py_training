@@ -23,7 +23,6 @@ class TestAddGroup(unittest.TestCase):
         wd.find_element_by_id("LoginForm").submit()
 
     def open_groups_page(self, wd):
-        # open groups page
         wd.find_element_by_link_text("groups").click()
 
     def create_group(self, wd, group):
