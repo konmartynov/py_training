@@ -55,7 +55,7 @@ class TestAddUser(unittest.TestCase):
         wd.find_element_by_name("mobile").send_keys(user.mobile)
         wd.find_element_by_name("work").click()
         wd.find_element_by_name("work").clear()
-        wd.find_element_by_name("work").send_keys(user.work)
+        wd.find_element_by_name("work").send_keys(user.work_phone)
         wd.find_element_by_name("fax").click()
         wd.find_element_by_name("fax").clear()
         wd.find_element_by_name("fax").send_keys(user.fax)
@@ -92,7 +92,7 @@ class TestAddUser(unittest.TestCase):
         self.open_homepage(wd)
         self.login(wd, username="admin", password="secret")
         self.add_new_user(wd, User(fname=r_str, mname=r_str, lname=r_str, nickname=r_str, company=r_str,
-                          address=r_str, home=r_str, mobile=r_mob, work=r_str, fax=r_str, email=mail, note=r_str))
+                          address=r_str, home=r_str, mobile=r_mob, work_phone=r_mob, fax=r_str, email=mail, note=r_str))
         self.return_to_homepage(wd)
         self.logout(wd)
 
