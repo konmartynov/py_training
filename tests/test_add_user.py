@@ -1,16 +1,7 @@
 # -*- coding: utf-8 -*-
 from random import choice
 from string import ascii_letters, digits
-import pytest
 from models.user import User
-from fixtures.application import Application
-
-
-@pytest.fixture
-def app(request):
-    fixture = Application()
-    request.addfinalizer(fixture.destroy)
-    return fixture
 
 
 def test_add_user(app):
