@@ -6,11 +6,28 @@ class UserHelper:
     def __init__(self, app):
         self.app = app
 
-    def add_new(self, user):
+    def jump_to_add_new_user_form(self):
         wd = self.app.wd
         # click new user button
         wd.find_element_by_link_text("add new").click()
-        # fill user info
+
+    def create_new_user(self):
+        wd = self.app.wd
+        # submit user form
+        wd.find_element_by_name("submit").click()
+
+    def jump_to_edit_first_user_form(self):
+        wd = self.app.wd
+        # click edit first user button
+        wd.find_element_by_xpath("//td[8]/a").click()
+
+    def update_user(self):
+        wd = self.app.wd
+        # submit user form
+        wd.find_element_by_xpath("//input[22]").click()
+
+    def fill_user_form(self, user):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(user.fname)
@@ -57,6 +74,8 @@ class UserHelper:
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(user.note)
-        wd.find_element_by_id("content").click()
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
-        self.app.return_to_homepage()
+
+    def delete_user(self):
+        wd = self.app.wd
+        # submit deletion
+        wd.find_element_by_xpath("//form[2]/input[2]").click()

@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 from models.user import User
 
 
-def test_add_user(app):
+def test_modify_first_user(app):
     r_str = app.gen_random_string()
     r_mob = app.gen_random_number()
     mail = r_str + '@email.com'
@@ -13,4 +12,6 @@ def test_add_user(app):
                                  email=mail, note=r_str))
     app.user.create_new_user()
     app.return_to_homepage()
+    app.user.jump_to_edit_first_user_form()
+    app.user.delete_user()
     app.session.logout()
