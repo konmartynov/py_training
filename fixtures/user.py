@@ -1,34 +1,33 @@
-# -*- coding: utf-8 -*-
-from random import choice
-from string import ascii_letters, digits
-from selenium import webdriver
-from selenium.webdriver.support.ui import Select
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
-import unittest
-from user import User
+from selenium.webdriver.support.select import Select
 
 
-class TestAddUser(unittest.TestCase):
-    def setUp(self):
-        self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
+class UserHelper:
 
-    def open_homepage(self, wd):
-        wd.get("http://localhost/addressbook/")
+    def __init__(self, app):
+        self.app = app
 
-    def login(self, wd, username, password):
-        wd.find_element_by_name("user").click()
-        wd.find_element_by_name("user").clear()
-        wd.find_element_by_name("user").send_keys(username)
-        wd.find_element_by_name("pass").clear()
-        wd.find_element_by_name("pass").send_keys(password)
-        wd.find_element_by_id("LoginForm").submit()
-
-    def add_new_user(self, wd, user):
+    def jump_to_add_new_user_form(self):
+        wd = self.app.wd
         # click new user button
         wd.find_element_by_link_text("add new").click()
-        # fill user info
+
+    def create_new_user(self):
+        wd = self.app.wd
+        # submit user form
+        wd.find_element_by_name("submit").click()
+
+    def jump_to_edit_first_user_form(self):
+        wd = self.app.wd
+        # click edit first user button
+        wd.find_element_by_xpath("//td[8]/a").click()
+
+    def update_user(self):
+        wd = self.app.wd
+        # submit user form
+        wd.find_element_by_xpath("//input[22]").click()
+
+    def fill_user_form(self, user):
+        wd = self.app.wd
         wd.find_element_by_name("firstname").click()
         wd.find_element_by_name("firstname").clear()
         wd.find_element_by_name("firstname").send_keys(user.fname)
@@ -75,40 +74,8 @@ class TestAddUser(unittest.TestCase):
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(user.note)
-        wd.find_element_by_id("content").click()
-        wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
 
-    def return_to_homepage(self, wd):
-        wd.find_element_by_link_text("home page").click()
-
-    def logout(self, wd):
-        wd.find_element_by_link_text("Logout").click()
-
-    def test_add_user(self):
-        r_str = ''.join(choice(ascii_letters) for i in range(5))
-        r_mob = '+7' + ''.join(choice(digits) for i in range(10))
-        mail = r_str + '@email.com'
-        wd = self.wd
-        self.open_homepage(wd)
-        self.login(wd, username="admin", password="secret")
-        self.add_new_user(wd, User(fname=r_str, mname=r_str, lname=r_str, nickname=r_str, company=r_str,
-                          address=r_str, home=r_str, mobile=r_mob, work_phone=r_mob, fax=r_str, email=mail, note=r_str))
-        self.return_to_homepage(wd)
-        self.logout(wd)
-
-    def is_element_present(self, how, what):
-        try: self.wd.find_element(by=how, value=what)
-        except NoSuchElementException as e: return False
-        return True
-    
-    def is_alert_present(self):
-        try: self.wd.switch_to_alert()
-        except NoAlertPresentException as e: return False
-        return True
-
-    def tearDown(self):
-        self.wd.quit()
-
-
-if __name__ == "__main__":
-    unittest.main()
+    def delete_user(self):
+        wd = self.app.wd
+        # submit deletion
+        wd.find_element_by_xpath("//form[2]/input[2]").click()
