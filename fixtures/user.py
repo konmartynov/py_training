@@ -79,3 +79,8 @@ class UserHelper:
         wd = self.app.wd
         # submit deletion
         wd.find_element_by_xpath("//form[2]/input[2]").click()
+
+    def user_count(self):
+        wd = self.app.wd
+        self.app.go_to_home()
+        return len(wd.find_elements_by_xpath("//td[8]/a"))

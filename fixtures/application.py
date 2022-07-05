@@ -1,6 +1,5 @@
 from random import choice
 from string import ascii_letters, digits
-
 from selenium import webdriver
 from fixtures.session import SessionHelper
 from fixtures.group import GroupHelper
@@ -11,7 +10,7 @@ class Application:
 
     def __init__(self):
         self.wd = webdriver.Firefox()
-        self.wd.implicitly_wait(30)
+        self.wd.implicitly_wait(3)
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.user = UserHelper(self)
@@ -38,6 +37,10 @@ class Application:
     def return_to_homepage(self):
         wd = self.wd
         wd.find_element_by_link_text("home page").click()
+
+    def go_to_home(self):
+        wd = self.wd
+        wd.find_element_by_xpath("//li[1]/a").click()
 
     def destroy(self):
         self.wd.quit()
