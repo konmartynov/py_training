@@ -16,6 +16,7 @@ class UserHelper:
         wd = self.app.wd
         # submit user form
         wd.find_element_by_name("submit").click()
+        self.user_cache = None
 
     def jump_to_edit_first_user_form(self):
         wd = self.app.wd
@@ -26,6 +27,7 @@ class UserHelper:
         wd = self.app.wd
         # submit user form
         wd.find_element_by_xpath("//input[22]").click()
+        self.user_cache = None
 
     def fill_user_form(self, user):
         wd = self.app.wd
@@ -80,19 +82,23 @@ class UserHelper:
         wd = self.app.wd
         # submit deletion
         wd.find_element_by_xpath("//form[2]/input[2]").click()
+        self.user_cache = None
 
     def user_count(self):
         wd = self.app.wd
         self.app.go_to_home()
         return len(wd.find_elements_by_xpath("//td[8]/a"))
 
+    user_cache = None
+
     def get_user_list(self):
-        wd = self.app.wd
-        wd.find_element_by_xpath("//li[1]/a").click()
-        user_list = []
-        for element in wd.find_elements_by_xpath("//tr/td/input"):
-            id = element.get_attribute("id")
-            fname = element.get_attribute("title").split()[1][1:]
-            lname = element.get_attribute("title").split()[2][:-1]
-            user_list.append(User(fname=fname, lname=lname, id=id))
-        return user_list
+        if self.user_cache is None:
+            wd = self.app.wd
+            wd.find_element_by_xpath("//li[1]/a").click()
+            self.user_cache = []
+            for element in wd.find_elements_by_xpath("//tr/td/input"):
+                id = element.get_attribute("id")
+                fname = element.get_attribute("title").split()[1][1:]
+                lname = element.get_attribute("title").split()[2][:-1]
+                self.user_cache.append(User(fname=fname, lname=lname, id=id))
+        return list(self.user_cache)
