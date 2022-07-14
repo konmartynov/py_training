@@ -20,8 +20,11 @@ class UserHelper:
 
     def jump_to_edit_first_user_form(self):
         wd = self.app.wd
-        # click edit first user button
-        wd.find_element_by_xpath("//td[8]/a").click()
+        wd.find_element_by_xpath("//tr[2]/td[8]/a").click()
+
+    def jump_to_edit_user_form_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_xpath("//td[8]/a")[index].click()
 
     def update_user(self):
         wd = self.app.wd

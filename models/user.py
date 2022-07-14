@@ -23,7 +23,7 @@ class User:
         return "%s:%s" % self.id, self.lname
 
     def __eq__(self, other):
-        return (self.id is None or other.id is None or self.id == other.id) and self.lname == other.lname
+        return (self.id is None or other.id is None or self.id == other.id) and self.fname == other.fname and self.lname == other.lname
 
     def id_or_max(self):
         if self.id:
