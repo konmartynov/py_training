@@ -1,4 +1,5 @@
 from selenium.webdriver.support.select import Select
+from models.user import User
 
 
 class UserHelper:
@@ -84,3 +85,14 @@ class UserHelper:
         wd = self.app.wd
         self.app.go_to_home()
         return len(wd.find_elements_by_xpath("//td[8]/a"))
+
+    def get_user_list(self):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//li[1]/a").click()
+        user_list = []
+        for element in wd.find_elements_by_xpath("//tr/td/input"):
+            id = element.get_attribute("id")
+            fname = element.get_attribute("title").split()[1][1:]
+            lname = element.get_attribute("title").split()[2][:-1]
+            user_list.append(User(fname=fname, lname=lname, id=id))
+        return user_list
