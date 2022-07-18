@@ -21,10 +21,12 @@ class UserHelper:
 
     def jump_to_edit_first_user_form(self):
         wd = self.app.wd
+        wd.find_element_by_xpath("//li[1]/a").click()
         wd.find_element_by_xpath("//tr[2]/td[8]/a").click()
 
     def jump_to_edit_user_form_by_index(self, index):
         wd = self.app.wd
+        wd.find_element_by_xpath("//li[1]/a").click()
         wd.find_elements_by_xpath("//td[8]/a")[index].click()
 
     def update_user(self):
@@ -128,7 +130,7 @@ class UserHelper:
 
     def get_user_from_view_page(self, index):
         wd = self.app.wd
-        self.jump_to_edit_user_form_by_index(index)
+        self.jump_to_view_user_form_by_index(index)
         text = wd.find_element_by_id("content").text
         home_phone = re.search("H: (.*)", text).group(1)
         mobile = re.search("M: (.*)", text).group(1)
