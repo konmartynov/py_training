@@ -99,9 +99,8 @@ class UserHelper:
             wd = self.app.wd
             wd.find_element_by_xpath("//li[1]/a").click()
             self.user_cache = []
-            for element in wd.find_elements_by_xpath("//tr/td/input"):
+            for element in wd.find_elements_by_name("entry"):
                 id = element.get_attribute("id")
-                fname = element.get_attribute("title").split()[1][1:]
-                lname = element.get_attribute("title").split()[2][:-1]
-                self.user_cache.append(User(fname=fname, lname=lname, id=id))
+                cells = element.find_elements_by_tag_name("td")
+                self.user_cache.append(User(fname=cells[2].text, lname=cells[1].text, id=id))
         return list(self.user_cache)

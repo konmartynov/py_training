@@ -1,3 +1,4 @@
+from operator import itemgetter
 from random import randrange
 from models.user import User
 
@@ -28,4 +29,4 @@ def test_modify_some_user(app):
     new_users = app.user.get_user_list()
     assert len(old_users) == len(new_users)
     old_users[index] = User(fname=r_str, lname=r_str)
-    assert sorted(old_users, key=User.id_or_max) == sorted(new_users, key=User.id_or_max)
+    assert sorted(old_users, key=User.sort_lname) == sorted(new_users, key=User.sort_lname)
