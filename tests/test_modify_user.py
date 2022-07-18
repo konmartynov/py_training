@@ -1,4 +1,3 @@
-from operator import itemgetter
 from random import randrange
 from models.user import User
 
