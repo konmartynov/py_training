@@ -8,7 +8,8 @@ def test_add_user(app):
     mail = r_str + '@email.com'
     old_users = app.user.get_user_list()
     user = User(fname=r_str, mname=r_str, lname=r_str, nickname=r_str, company=r_str, address=r_str,
-                home=r_str, mobile=r_mob, work_phone=r_mob, fax=r_str, email=mail, note=r_str)
+                home_phone=r_str, mobile=r_mob, work_phone=r_mob, fax=r_str, email=mail, note=r_str,
+                second_phone=r_mob)
     app.user.jump_to_add_new_user_form()
     app.user.fill_user_form(user)
     app.user.create_new_user()
