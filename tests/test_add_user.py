@@ -16,5 +16,5 @@ def test_add_user(app):
     app.return_to_homepage()
     new_users = app.user.get_user_list()
     assert len(old_users) + 1 == app.user.user_count()
-    old_users.append(User(fname=r_str, lname=r_str))
-    assert sorted(old_users, key=User.sort_lname) == sorted(new_users, key=User.sort_lname)
+    old_users.append(User(fname=r_str, lname=r_str, id=user.id))
+    assert sorted(old_users, key=User.sort_by_id) == sorted(new_users, key=User.sort_by_id)

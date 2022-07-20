@@ -29,5 +29,5 @@ def test_modify_some_user(app):
     app.return_to_homepage()
     new_users = app.user.get_user_list()
     assert len(old_users) == len(new_users)
-    old_users[index] = User(fname=r_str, lname=r_str)
-    assert sorted(old_users, key=User.sort_lname) == sorted(new_users, key=User.sort_lname)
+    old_users[index] = User(fname=r_str, lname=r_str, id=user.id)
+    assert sorted(old_users, key=User.sort_by_id) == sorted(new_users, key=User.sort_by_id)

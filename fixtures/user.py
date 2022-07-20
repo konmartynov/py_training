@@ -103,11 +103,11 @@ class UserHelper:
             wd.find_element_by_xpath("//li[1]/a").click()
             self.user_cache = []
             for element in wd.find_elements_by_name("entry"):
-                id = element.get_attribute("id")
                 cells = element.find_elements_by_tag_name("td")
-                all_phones = cells[5].text.splitlines()
-                self.user_cache.append(User(fname=cells[2].text, lname=cells[1].text, id=id, home_phone=all_phones[0],
-                                            mobile=all_phones[1], work_phone=all_phones[2]))
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                all_phones = cells[5].text
+                self.user_cache.append(User(fname=cells[2].text, lname=cells[1].text, id=id,
+                                            all_phones_from_home_page=all_phones))
         return list(self.user_cache)
 
     def jump_to_view_user_form_by_index(self, index):
