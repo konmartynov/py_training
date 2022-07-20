@@ -70,6 +70,12 @@ class UserHelper:
         wd.find_element_by_name("email").click()
         wd.find_element_by_name("email").clear()
         wd.find_element_by_name("email").send_keys(user.email)
+        wd.find_element_by_name("email2").click()
+        wd.find_element_by_name("email2").clear()
+        wd.find_element_by_name("email2").send_keys(user.email)
+        wd.find_element_by_name("email3").click()
+        wd.find_element_by_name("email3").clear()
+        wd.find_element_by_name("email3").send_keys(user.email)
         wd.find_element_by_name("bday").click()
         Select(wd.find_element_by_name("bday")).select_by_visible_text("1")
         wd.find_element_by_xpath("//option[@value='1']").click()
@@ -80,6 +86,9 @@ class UserHelper:
         wd.find_element_by_name("byear").click()
         wd.find_element_by_name("byear").clear()
         wd.find_element_by_name("byear").send_keys("1990")
+        wd.find_element_by_name("phone2").click()
+        wd.find_element_by_name("phone2").clear()
+        wd.find_element_by_name("phone2").send_keys(user.second_phone)
         wd.find_element_by_name("notes").click()
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(user.note)
@@ -105,9 +114,8 @@ class UserHelper:
             for element in wd.find_elements_by_name("entry"):
                 cells = element.find_elements_by_tag_name("td")
                 id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-                all_phones = cells[5].text
-                self.user_cache.append(User(fname=cells[2].text, lname=cells[1].text, id=id,
-                                            all_phones_from_home_page=all_phones))
+                self.user_cache.append(User(id=id, fname=cells[2].text, lname=cells[1].text, address=cells[3].text,
+                                            all_emails_from_home_page=cells[4].text, all_phones_from_home_page=cells[5].text))
         return list(self.user_cache)
 
     def jump_to_view_user_form_by_index(self, index):
@@ -125,8 +133,13 @@ class UserHelper:
         mobile = wd.find_element_by_name("mobile").get_attribute("value")
         work_phone = wd.find_element_by_name("work").get_attribute("value")
         second_phone = wd.find_element_by_name("phone2").get_attribute("value")
+        address = wd.find_element_by_name("address").text
+        email1 = wd.find_element_by_name("email").get_attribute("value")
+        email2 = wd.find_element_by_name("email2").get_attribute("value")
+        email3 = wd.find_element_by_name("email3").get_attribute("value")
         return User(fname=fname, lname=lname, id=id, home_phone=home_phone, mobile=mobile,
-                    work_phone=work_phone, second_phone=second_phone)
+                    work_phone=work_phone, second_phone=second_phone, address=address, email1=email1,
+                    email2=email2, email3=email3)
 
     def get_user_from_view_page(self, index):
         wd = self.app.wd
