@@ -21,13 +21,22 @@ class UserHelper:
 
     def jump_to_edit_first_user_form(self):
         wd = self.app.wd
-        wd.find_element_by_xpath("//li[1]/a").click()
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
         wd.find_element_by_xpath("//tr[2]/td[8]/a").click()
 
     def jump_to_edit_user_form_by_index(self, index):
         wd = self.app.wd
-        wd.find_element_by_xpath("//li[1]/a").click()
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
         wd.find_elements_by_xpath("//td[8]/a")[index].click()
+
+    def jump_to_edit_user_form_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
+        for element in wd.find_elements_by_name("entry"):
+            cells = element.find_elements_by_tag_name("td")
+            cell_id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+            if cell_id == id:
+                cells[7].click()
 
     def update_user(self):
         wd = self.app.wd
@@ -109,7 +118,7 @@ class UserHelper:
     def get_user_list(self):
         if self.user_cache is None:
             wd = self.app.wd
-            wd.find_element_by_xpath("//li[1]/a").click()
+            wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
             self.user_cache = []
             for element in wd.find_elements_by_name("entry"):
                 cells = element.find_elements_by_tag_name("td")
