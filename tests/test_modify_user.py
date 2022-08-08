@@ -3,7 +3,7 @@ from models.user import User
 
 
 def test_modify_some_user(app, db, json_users, check_ui):
-    if app.user.user_count() == 0:
+    if len(db.get_user_list()) == 0:
         user = json_users
         app.user.jump_to_add_new_user_form()
         app.user.fill_user_form(user)
@@ -23,7 +23,6 @@ def test_modify_some_user(app, db, json_users, check_ui):
     app.user.update_user()
     app.return_to_homepage()
     new_users = db.get_user_list()
-    assert len(old_users) == len(new_users)
     old_users[index] = User(fname=r_str, lname=r_str, id=user.id)
     if check_ui:
-        assert sorted(old_users, key=User.sort_by_id) == sorted(new_users, key=User.sort_by_id)
+        assert sorted(new_users, key=User.sort_by_id) == sorted(app.group.get_user_list(), key=User.sort_by_id)

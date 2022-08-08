@@ -10,8 +10,7 @@ def test_add_user(app, db, json_users, check_ui):
     app.user.create_new_user()
     app.return_to_homepage()
     new_users = db.get_user_list()
-    assert len(old_users) + 1 == app.user.user_count()
     old_users.append(User(fname=user.fname, lname=user.lname, id=user.id))
     assert old_users == new_users
     if check_ui:
-        assert sorted(old_users, key=User.sort_by_id) == sorted(new_users, key=User.sort_by_id)
+        assert sorted(new_users, key=User.sort_by_id) == sorted(app.group.get_user_list(), key=User.sort_by_id)

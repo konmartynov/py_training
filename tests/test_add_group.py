@@ -10,4 +10,4 @@ def test_add_group(app, db, json_groups, check_ui):
     old_groups.append(group)
     assert old_groups == new_groups
     if check_ui:
-        assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
+        assert sorted(new_groups, key=Group.id_or_max) == sorted(app.group.get_group_list(), key=Group.id_or_max)

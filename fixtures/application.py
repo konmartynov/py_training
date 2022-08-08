@@ -48,8 +48,8 @@ class Application:
 
     def go_to_home(self):
         wd = self.wd
-        # if not (wd.find_element_by_xpath("//div[4]/div/form/input") and len(wd.find_elements_by_name("add")) == 0):
-        wd.find_element_by_xpath("//div[3]/ul/li[1]").click()
+        if not (wd.find_elements_by_xpath("//div[4]/div/form/input") and len(wd.find_elements_by_name("add")) == 0):
+            wd.find_element_by_xpath("//div[3]/ul/li[1]").click()
 
     def destroy(self):
         self.wd.quit()

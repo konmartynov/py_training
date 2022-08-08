@@ -3,7 +3,7 @@ from models.user import User
 
 
 def test_delete_some_user(app, db, json_users, check_ui):
-    if app.user.user_count() == 0:
+    if len(db.get_user_list()) == 0:
         user = json_users
         app.user.jump_to_add_new_user_form()
         app.user.fill_user_form(user)
@@ -14,7 +14,6 @@ def test_delete_some_user(app, db, json_users, check_ui):
     app.user.jump_to_edit_user_form_by_id(user.id)
     app.user.delete_user()
     new_users = db.get_user_list()
-    assert len(old_users) - 1 == len(new_users)
     old_users.remove(user)
     assert old_users == new_users
     if check_ui:
