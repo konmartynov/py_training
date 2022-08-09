@@ -38,3 +38,17 @@ class DbFixture:
 
     def destroy(self):
         self.connection.close()
+
+    def get_users_info(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id, firstname, lastname, address, email, email2, email3, home, mobile, "
+                           "work, phone2 from addressbook where deprecated='0000-00-00 00:00:00'")
+            for row in cursor:
+                (id, fname, lname, address, email, email2, email3, home, mobile, work, phone2) = row
+                list.append(User(id=str(id), fname=fname, lname=lname, address=address, email1=email, email2=email2,
+                                 email3=email3, home_phone=home, mobile=mobile, work_phone=work, second_phone=phone2))
+        finally:
+            cursor.close()
+        return list

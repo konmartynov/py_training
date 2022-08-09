@@ -159,3 +159,44 @@ class UserHelper:
         work_phone = re.search("W: (.*)", text).group(1)
         second_phone = re.search("P: (.*)", text).group(1)
         return User(home_phone=home_phone, mobile=mobile, work_phone=work_phone, second_phone=second_phone)
+
+    def clear(self, s):
+        return re.sub("[() -]", "", s)
+
+    def merge_emails_like_on_home_page(self, user):
+        return "\n".join(filter(lambda x: x != "",
+                                filter(lambda x: x is not None,
+                                       [user.email1, user.email2, user.email3])))
+
+    def merge_emails_of_all_users_from_db(self, users):
+        merged_users_email_list = []
+        for item in users:
+            merged_users_email_list.append(self.merge_emails_like_on_home_page(item))
+        return merged_users_email_list
+
+    def merge_phones_like_on_home_page(self, user):
+        return "\n".join(filter(lambda x: x != "",
+                                map(lambda x: self.clear(x),
+                                    filter(lambda x: x is not None,
+                                           [user.home_phone, user.mobile, user.work_phone, user.second_phone]))))
+
+    def merge_phones_of_all_users_from_db(self, users):
+        merged_users_phone_list = []
+        for item in users:
+            merged_users_phone_list.append(self.merge_phones_like_on_home_page(item))
+        return merged_users_phone_list
+
+    def get_info_from_users_list(self, users, key):
+        data_list = []
+        for item in users:
+            if key == 'emails':
+                data_list.append(item.all_emails_from_home_page)
+            elif key == 'phones':
+                data_list.append(item.all_phones_from_home_page)
+            elif key == 'lname':
+                data_list.append(item.lname)
+            elif key == 'fname':
+                data_list.append(item.lname)
+            elif key == 'address':
+                data_list.append(item.address)
+        return data_list
