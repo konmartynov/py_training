@@ -37,6 +37,7 @@ class UserHelper:
             cell_id = cells[0].find_element_by_tag_name("input").get_attribute("value")
             if cell_id == id:
                 cells[7].click()
+                break
 
     def update_user(self):
         wd = self.app.wd
@@ -200,3 +201,27 @@ class UserHelper:
             elif key == 'address':
                 data_list.append(item.address)
         return data_list
+
+    def change_old_users_list(self, old_users, id, new_data):
+        for item in old_users:
+            if item.id == id:
+                item.fname = new_data.fname
+                item.lname = new_data.lname
+                break
+        return old_users
+
+    def add_user_to_group(self, id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
+        for element in wd.find_elements_by_name("entry"):
+            cells = element.find_elements_by_tag_name("td")
+            cell_id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+            if cell_id == id:
+                cells[0].click()
+        wd.find_element_by_name("to_group").click()
+        Select(wd.find_element_by_name("to_group")).select_by_visible_text("HboCg") # ПЕРЕДЕЛАТЬ НА РАНДОМ
+        # wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        wd.find_element_by_xpath("//input[@value='Add to']").click()
+        wd.find_element_by_xpath("//i/a").click()
+
+
