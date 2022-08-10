@@ -2,9 +2,9 @@ from random import randrange
 from models.group import Group
 
 
-def test_modify_group_name(app, db, json_groups, check_ui):
+def test_modify_group_name(app, db, check_ui):
     if len(db.get_group_list()) == 0:
-        group = json_groups
+        group = Group(name="for_mod", header="for_mod_h", footer="for_mod_f")
         app.group.create(group)
     r_str = app.gen_random_string()
     old_groups = db.get_group_list()

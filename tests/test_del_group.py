@@ -2,9 +2,9 @@ import random
 from models.group import Group
 
 
-def test_delete_some_group(app, db, json_groups, check_ui):
+def test_delete_some_group(app, db, check_ui):
     if len(db.get_group_list()) == 0:
-        group = json_groups
+        group = Group(name="for_del", header="for_del_h", footer="for_del_f")
         app.group.create(group)
     old_groups = db.get_group_list()
     group = random.choice(old_groups)
