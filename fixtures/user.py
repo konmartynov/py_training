@@ -210,18 +210,37 @@ class UserHelper:
                 break
         return old_users
 
-    def add_user_to_group(self, id):
+    def choose_filter_on_home_page(self, key):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
+        Select(wd.find_element_by_name("group")).select_by_visible_text('%s' % key)
+
+    def add_user_to_group(self, user_id, group_id):
         wd = self.app.wd
         wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
         for element in wd.find_elements_by_name("entry"):
             cells = element.find_elements_by_tag_name("td")
             cell_id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-            if cell_id == id:
+            if cell_id == user_id:
                 cells[0].click()
-        wd.find_element_by_name("to_group").click()
-        Select(wd.find_element_by_name("to_group")).select_by_visible_text("HboCg") # ПЕРЕДЕЛАТЬ НА РАНДОМ
-        # wd.find_element_by_css_selector("input[value='%s']" % id).click()
+        Select(wd.find_element_by_name("to_group")).select_by_value('%s' % group_id)
         wd.find_element_by_xpath("//input[@value='Add to']").click()
         wd.find_element_by_xpath("//i/a").click()
 
+    def delete_user_from_group(self, user_id):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
+        for element in wd.find_elements_by_name("entry"):
+            cells = element.find_elements_by_tag_name("td")
+            cell_id = cells[0].find_element_by_tag_name("input").get_attribute(
+                "value")
+            if cell_id == user_id:
+                cells[0].click()
+        wd.find_element_by_xpath("//input[@name='remove']").click()
 
+    # Оставил для себя на всякий случай
+    # def parse_users_list_by_id(self, users, key):
+    #     for item in users:
+    #         if item.id == key:
+    #             break
+    #     return item
