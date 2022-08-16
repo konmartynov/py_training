@@ -4,7 +4,8 @@ from models.group import Group
 
 
 def test_add_some_user_to_group(app, db, orm):
-    if len(db.get_user_list()) == 0:
+    app.user.choose_filter_on_home_page(key='[none]')
+    if len(app.user.get_user_list()) == 0:
         r_str = app.gen_random_string()
         r_mob = app.gen_random_number()
         mail = r_str + '@email.com'
@@ -15,11 +16,11 @@ def test_add_some_user_to_group(app, db, orm):
         app.user.fill_user_form(user)
         app.user.create_new_user()
         app.return_to_homepage()
+        app.user.choose_filter_on_home_page(key='[none]')
     if len(db.get_group_list()) == 0:
         group = Group(name="for_add_user", header="to_this", footer="group")
         app.group.create(group)
-    app.user.choose_filter_on_home_page(key='[all]')
-    users_list = db.get_user_list()
+    users_list = app.user.get_user_list()
     user = random.choice(users_list)
     groups_list = db.get_group_list()
     group = random.choice(groups_list)
