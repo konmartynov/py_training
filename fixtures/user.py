@@ -119,7 +119,7 @@ class UserHelper:
     def get_user_list(self):
         if self.user_cache is None:
             wd = self.app.wd
-            # wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
+            wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
             self.user_cache = []
             for element in wd.find_elements_by_name("entry"):
                 cells = element.find_elements_by_tag_name("td")
