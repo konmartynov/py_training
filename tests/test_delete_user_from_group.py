@@ -18,13 +18,11 @@ def test_delete_some_user_from_group(app, db, orm):
     if len(db.get_group_list()) == 0:
         group = Group(name="for_del_user", header="from_this", footer="group")
         app.group.create(group)
-    app.user.choose_filter_on_home_page(key='[all]')
-    users_list = db.get_user_list()
-    user = random.choice(users_list)
-    groups_list = db.get_group_list()
-    group = random.choice(groups_list)
-    app.user.add_user_to_group(user.id, group.id)
-    app.user.choose_filter_on_home_page(key=group.name)
-    app.user.delete_user_from_group(user.id)
-    users_not_in_groups = orm.get_users_not_in_group(group)
-    assert user in users_not_in_groups
+    old_list_user = orm.get_groups_with_users()
+    group = random.choice(old_list_user)
+    user_in_group = orm.get_users_in_group(group)
+    user = random.choice(user_in_group)
+    app.user.delete_user_from_group(user.id, group)
+    new_list_user_in_group = orm.get_users_in_group(group)
+    user_in_group.remove(user)
+    assert user_in_group == new_list_user_in_group

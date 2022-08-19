@@ -218,25 +218,36 @@ class UserHelper:
     def add_user_to_group(self, user_id, group_id):
         wd = self.app.wd
         wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
-        for element in wd.find_elements_by_name("entry"):
-            cells = element.find_elements_by_tag_name("td")
-            cell_id = cells[0].find_element_by_tag_name("input").get_attribute("value")
-            if cell_id == user_id:
-                cells[0].click()
-        Select(wd.find_element_by_name("to_group")).select_by_value('%s' % group_id)
-        wd.find_element_by_xpath("//input[@value='Add to']").click()
-        wd.find_element_by_xpath("//i/a").click()
+        Select(wd.find_element_by_name("group")).select_by_visible_text('[none]')
+        self.select_user_by_id(user_id)
+        self.app.group.select_group("to_group", group_id)
+        wd.find_element_by_xpath("(//input[@value='Add to'])").click()
+        self.back_home_page()
 
-    def delete_user_from_group(self, user_id):
+    def delete_user_from_group(self, user, group):
         wd = self.app.wd
         wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
-        for element in wd.find_elements_by_name("entry"):
-            cells = element.find_elements_by_tag_name("td")
-            cell_id = cells[0].find_element_by_tag_name("input").get_attribute(
-                "value")
-            if cell_id == user_id:
-                cells[0].click()
-        wd.find_element_by_xpath("//input[@name='remove']").click()
+        self.app.group.select_group("group", group)
+        self.select_user_by_id(user)
+        wd.find_element_by_name("remove")
+        wd.find_element_by_name("remove").click()
+        wd.find_element_by_css_selector("div.msgbox")
+        wd.find_element_by_link_text("home").click()
+
+    def get_list_user_in_group(self, group_id):
+        wd = self.app.wd
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_xpath("//option[@value='%s']" % group_id).click()
+
+    def select_user_by_id(self, id_contact):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[id='%s']" % id_contact).click()
+
+    def back_home_page(self):
+        wd = self.app.wd
+        if not (wd.current_url.endswith("addressbook/") and len(
+                wd.find_element_by_name("to_group")) > 0):
+            wd.find_element_by_link_text("home").click()
 
     # Оставил для себя на всякий случай
     # def parse_users_list_by_id(self, users, key):

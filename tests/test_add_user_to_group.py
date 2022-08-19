@@ -1,6 +1,7 @@
 import random
 from models.user import User
 from models.group import Group
+from models.user_in_group import UserInGroup
 
 
 def test_add_some_user_to_group(app, db, orm):
@@ -20,12 +21,12 @@ def test_add_some_user_to_group(app, db, orm):
     if len(db.get_group_list()) == 0:
         group = Group(name="for_add_user", header="to_this", footer="group")
         app.group.create(group)
-    users_list = app.user.get_user_list()
-    user = random.choice(users_list)
+    old_list_users = db.get_user_in_group_list()
     groups_list = db.get_group_list()
     group = random.choice(groups_list)
-    app.user.add_user_to_group(user.id, group.id)
-    users_in_groups = orm.get_users_in_group(group)
-    # choosed_user_in_group = app.user.parse_users_list_by_id(users_in_groups, key=user.id)
-    # assert user.id == choosed_user_in_group.id
-    assert user in users_in_groups
+    users_list = orm.get_users_not_in_group(group)
+    user = random.choice(users_list)
+    app.user.add_user_to_group(user.id, group)
+    new_list_user_in_group = db.get_user_in_group_list()
+    old_list_users.append(UserInGroup(id=user.id))
+    assert sorted(old_list_users, key=UserInGroup.id_max) == sorted(new_list_user_in_group, key=UserInGroup.id_max)
