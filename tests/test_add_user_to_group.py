@@ -6,7 +6,7 @@ from models.user_in_group import UserInGroup
 
 def test_add_some_user_to_group(app, db, orm):
     app.user.choose_filter_on_home_page(key='[none]')
-    if len(app.user.get_user_list()) == 0:
+    if len(app.user.get_user_list_without_group()) == 0:
         r_str = app.gen_random_string()
         r_mob = app.gen_random_number()
         mail = r_str + '@email.com'

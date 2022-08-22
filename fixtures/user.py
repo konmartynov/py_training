@@ -249,6 +249,17 @@ class UserHelper:
                 wd.find_element_by_name("to_group")) > 0):
             wd.find_element_by_link_text("home").click()
 
+    def get_user_list_without_group(self):
+        if self.user_cache is None:
+            wd = self.app.wd
+            self.user_cache = []
+            for element in wd.find_elements_by_name("entry"):
+                cells = element.find_elements_by_tag_name("td")
+                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+                self.user_cache.append(User(id=id, fname=cells[2].text, lname=cells[1].text, address=cells[3].text,
+                                            all_emails_from_home_page=cells[4].text, all_phones_from_home_page=cells[5].text))
+        return list(self.user_cache)
+
     # Оставил для себя на всякий случай
     # def parse_users_list_by_id(self, users, key):
     #     for item in users:
